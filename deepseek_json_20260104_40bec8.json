@@ -1,0 +1,118 @@
+{
+  "name": "365 小馬日記",
+  "short_name": "小馬日記",
+  "description": "每天記錄一則小馬心情日記，養成寫日記的好習慣",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#fff5f7",
+  "theme_color": "#ffb6c1",
+  "orientation": "portrait",
+  "scope": "./",
+  "id": "/",
+  "dir": "ltr",
+  "lang": "zh-Hant",
+  "categories": ["lifestyle", "productivity", "entertainment"],
+  "icons": [
+    {
+      "src": "./icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshots/mobile-1.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "小馬日記主界面"
+    },
+    {
+      "src": "./screenshots/mobile-2.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "日記編輯界面"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "寫今日日記",
+      "short_name": "今日",
+      "description": "快速開始寫今天的日記",
+      "url": "./index.html?action=today"
+    },
+    {
+      "name": "查看統計",
+      "short_name": "統計",
+      "description": "查看日記統計數據",
+      "url": "./index.html?action=stats"
+    },
+    {
+      "name": "隨機回憶",
+      "short_name": "回憶",
+      "description": "隨機查看一篇過往日記",
+      "url": "./index.html?action=random"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "protocol_handlers": [],
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

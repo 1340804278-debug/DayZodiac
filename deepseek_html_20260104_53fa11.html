@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="365天小馬日記，每天記錄你的心情與成長">
+    <title>365 小馬日記</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./icons/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="小馬日記">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="pony-emoji">🦄</span> 365 小馬日記</h1>
+            <p class="subtitle">每天記錄一則小馬心情，養成寫日記的好習慣</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span id="completedDays">0</span>
+                    <small>已記錄天數</small>
+                </div>
+                <div class="stat-item">
+                    <span id="currentStreak">0</span>
+                    <small>連續記錄</small>
+                </div>
+                <div class="stat-item">
+                    <span id="totalWords">0</span>
+                    <small>總字數</small>
+                </div>
+            </div>
+            <div class="header-buttons">
+                <button class="btn-small" onclick="exportDiary()">📤 導出</button>
+                <button class="btn-small" onclick="importDiary()">📥 導入</button>
+                <button class="btn-small" onclick="clearAllData()">🗑️ 清空</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- 快速導航 -->
+            <div class="quick-nav">
+                <button class="nav-btn" onclick="jumpToToday()">📅 跳轉到今天</button>
+                <button class="nav-btn" onclick="showRandomMemory()">🎲 隨機回憶</button>
+                <button class="nav-btn" onclick="toggleTheme()">🌙 切換主題</button>
+            </div>
+
+            <!-- 日記網格 -->
+            <div class="grid-container" id="grid"></div>
+        </main>
+
+        <!-- 底部操作欄 -->
+        <div class="bottom-bar">
+            <button class="fab" onclick="openToday()">
+                <span>📝</span>
+                <span class="fab-text">寫今日日記</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 日記編輯器 -->
+    <div id="editor" class="editor-modal">
+        <div class="editor-content">
+            <div class="editor-header">
+                <h2 id="dateTitle">第 1 天日記</h2>
+                <div class="editor-actions">
+                    <button class="icon-btn" onclick="addEmoji('🌈')">🌈</button>
+                    <button class="icon-btn" onclick="addEmoji('🌟')">🌟</button>
+                    <button class="icon-btn" onclick="addEmoji('✨')">✨</button>
+                    <button class="close-btn" onclick="closeEditor()">×</button>
+                </div>
+            </div>
+            
+            <div class="mood-selector">
+                <div class="mood-option" onclick="selectMood('happy')" data-mood="happy">
+                    <span>😊</span>
+                    <small>開心</small>
+                </div>
+                <div class="mood-option" onclick="selectMood('calm')" data-mood="calm">
+                    <span>😌</span>
+                    <small>平靜</small>
+                </div>
+                <div class="mood-option" onclick="selectMood('sad')" data-mood="sad">
+                    <span>😔</span>
+                    <small>難過</small>
+                </div>
+                <div class="mood-option" onclick="selectMood('excited')" data-mood="excited">
+                    <span>🤩</span>
+                    <small>興奮</small>
+                </div>
+                <div class="mood-option" onclick="selectMood('love')" data-mood="love">
+                    <span>🥰</span>
+                    <small>愛心</small>
+                </div>
+            </div>
+
+            <textarea 
+                id="noteInput" 
+                placeholder="今天發生了什麼事？有什麼特別的感受？..."
+                maxlength="500"
+                rows="6"
+            ></textarea>
+            
+            <div class="editor-tools">
+                <div class="char-counter">
+                    <span id="charCount">0</span>/500
+                </div>
+                <div class="tool-buttons">
+                    <button class="tool-btn" onclick="formatText('bold')"><b>B</b></button>
+                    <button class="tool-btn" onclick="formatText('italic')"><i>I</i></button>
+                    <button class="tool-btn" onclick="insertDate()">📅</button>
+                </div>
+            </div>
+
+            <div class="editor-footer">
+                <button class="btn btn-secondary" onclick="closeEditor()">取消</button>
+                <button class="btn btn-primary" onclick="saveNote()">💾 保存日記</button>
+                <button class="btn btn-success" onclick="saveAndNext()">保存並下一天 →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 日記預覽 -->
+    <div id="preview" class="preview-modal">
+        <div class="preview-content">
+            <div class="preview-header">
+                <h3 id="previewTitle"></h3>
+                <button class="close-btn" onclick="closePreview()">×</button>
+            </div>
+            <div id="previewContent"></div>
+            <div class="preview-footer">
+                <button class="btn" onclick="closePreview()">關閉</button>
+                <button class="btn btn-primary" onclick="editCurrentNote()">編輯</button>
+                <button class="btn btn-danger" onclick="deleteCurrentNote()">刪除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 安裝提示 -->
+    <div id="installPrompt" class="install-prompt">
+        <div class="install-content">
+            <p>📱 安裝「小馬日記」到手機桌面，隨時記錄！</p>
+            <div class="install-buttons">
+                <button class="btn" onclick="dismissInstall()">稍後</button>
+                <button class="btn btn-primary" onclick="installApp()">安裝</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加載動畫 -->
+    <div id="loading" class="loading">
+        <div class="spinner">🦄</div>
+        <p>加載中...</p>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
